@@ -1,129 +1,75 @@
 # Rule-Based Chatbot with Journey, Topic, and Subtopic
 
-This project is a **rule-based chatbot** that scopes conversations based on selected parameters: journey, topic, and subtopic. It uses the Groq LLM API to generate conversational responses limited to these themes, and provides a clean, interactive UI inspired by ChatGPT/OpenWebUI.
+A focused chatbot system using **Groq's LLM** to simulate scoped and rule-bound conversations based on predefined **journey**, **topic**, and **subtopic** selections. Inspired by platforms like Yellow and OpenWebUI, this project includes a clean UI and modular code for easy customization.
 
 ---
 
-## Features
+## ✨ Features
 
-- Selectable **Journey**, **Topic**, and **Subtopic** to constrain chatbot responses  
-- Interactive setup page to choose conversation context  
-- Streaming chat interface with user and bot message bubbles  
-- Dark-themed responsive UI with animated thinking indicator  
-- Markdown-supported bot message rendering  
-- Easy to extend with new journeys, topics, and subtopics  
-
----
-
-## Demo
-
-![Chatbot UI Screenshot](./docs/chatbot_ui.png)
+- ✅ Interactive UI for selecting journey, topic, and subtopic
+- ✅ Groq-powered LLM response streaming
+- ✅ Markdown and code block support in bot messages
+- ✅ Easy to update through `config.py` without touching business logic
+- ✅ Toggleable "thinking" indicator
+- ✅ Responsive dark theme
 
 ---
 
-## Getting Started
+## 🚀 Getting Started
 
-### Prerequisites
+### 📦 Prerequisites
 
-- Python 3.10+  
-- Groq SDK Python client (or other LLM client)  
-- Flask or FastAPI (depending on your backend choice)  
-- Basic web browser  
+- Python 3.10+
+- Groq API Key (https://console.groq.com)
+- `pip` installed
 
-### Installation
+### 🛠 Installation
 
-1. Clone this repo:
-
-   ```bash
-   git clone https://github.com/yourusername/your-chatbot-repo.git
-   cd your-chatbot-repo
-Install dependencies:
-
-bash
-Salin
-Edit
+```bash
+git clone https://github.com/yourusername/chatbot-journey.git
+cd chatbot-journey
 pip install -r requirements.txt
-Set up your Groq API key as environment variable:
+Set your Groq API Key:
 
 bash
-Salin
-Edit
-export GROQ_API_KEY="your_api_key_here"
-Running the App
+export GROQ_API_KEY=your_api_key_here
+▶️ Run the App
 bash
-Salin
-Edit
 python app.py
-Then open your browser and navigate to:
+Then go to http://localhost:8000 in your browser.
 
-arduino
-Salin
-Edit
-http://localhost:8000
-Usage
-On the setup page, select a Journey, Topic, and Subtopic from dropdown menus.
-
-Click Mulai Chat to start the conversation scoped to your selection.
-
-Enter your messages in the chat interface and receive context-aware responses from the bot.
-
-Configuration
-Edit config.py to customize journeys, topics, and subtopics. Example format:
+🧠 Configuration
+Open config.py and edit the JOURNEYS dictionary:
 
 python
-Salin
-Edit
-journeys = {
-    "Customer Support": {
+JOURNEYS = {
+    "Onboarding": {
         "topics": {
-            "Refund": {
+            "Account Creation": {
                 "subtopics": {
-                    "Delayed Refund": {},
-                    "Partial Refund": {},
+                    "Email Verification": "Help with email verification steps",
+                    "Username Rules": "Explaining username criteria"
                 }
             },
             ...
         }
-    },
-    ...
+    }
 }
-Project Structure
-bash
-Salin
-Edit
-/project-root
-├─ static/
-│  ├─ chat.css        # Chat UI styles
-│  ├─ index.html      # Setup page
-│  └─ chat.html       # Chat interface page
-├─ app.py             # Backend server
-├─ config.py          # Journey/topic/subtopic config
-├─ chat_logic.py      # Chat session and Groq API handling
-├─ requirements.txt   # Python dependencies
-└─ README.md          # This documentation
-Future Enhancements
-Persistent session and user management
+These will populate the dropdowns in the setup UI.
 
-Support for multiple LLM providers
+🗂 Project Structure
+chatbot-journey/
+├── static/
+│   ├── chat.css         # UI styles
+│   ├── chat.html        # Main chat interface
+│   └── index.html       # Journey/topic/subtopic selection
+├── app.py               # Flask backend server
+├── config.py            # Static journey/topic/subtopic configuration
+├── chat_logic.py        # LLM interaction and rule-based filtering
+├── requirements.txt     # Python dependencies
+└── README.md
+📜 License
+This project is licensed under the MIT License.
 
-Enhanced prompt engineering for stricter rule adherence
-
-UI improvements including themes and accessibility
-
-Analytics and monitoring dashboard
-
-Contributing
-Contributions are welcome! Feel free to open issues or submit pull requests.
-
-License
-This project is licensed under the MIT License. See the LICENSE file for details.
-
-Contact
-For questions or support, please contact Your Name.
-
-Acknowledgments
-Groq AI for the LLM platform
-
-Inspiration from ChatGPT and OpenWebUI
-
-Open-source community and contributors
+🤝 Contributions
+Feel free to fork and PR improvements!
