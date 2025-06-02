@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chatbot - Modern UI</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='chat.css') }}" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Chatbot</h1>
+      <button id="toggleThinkingBtn" title="Toggle Thinking Indicator">Toggle Thinking</button>
+    </header>
+
+    <main id="chatbox" class="chatbox"></main>
+
+    <div id="thinking" class="thinking" hidden>
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span> Thinking...
+    </div>
+
+    <form id="chatForm" autocomplete="off" class="chat-form">
+      <input
+        type="text"
+        id="messageInput"
+        placeholder="Tulis pesan..."
+        required
+        autocomplete="off"
+        autofocus
+      />
+      <button type="submit">Kirim</button>
+    </form>
+  </div>
+
+  <script src="{{ url_for('static', filename='chat.js') }}"></script>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</html>

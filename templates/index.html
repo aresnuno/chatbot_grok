@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chatbot Setup</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="chat.css" />
+</head>
+<body>
+  <div class="container" style="max-width: 400px; padding: 20px;">
+    <header>
+      <h1>Mulai Chatbot</h1>
+    </header>
+
+    <form id="setupForm" style="margin-top: 20px; display: flex; flex-direction: column; gap: 15px;">
+      <label>
+        Journey:
+        <select id="journeySelect" name="journey" required
+          style="width: 100%; padding: 10px 15px; border-radius: 25px; border: none; background-color: #3a3a3a; color: white; font-size: 1rem; outline-offset: 2px;">
+          <option value="">--Pilih Journey--</option>
+          {% for j in journeys %}
+          <option value="{{ j }}">{{ j }}</option>
+          {% endfor %}
+        </select>
+      </label>
+
+      <label>
+        Topic:
+        <select id="topicSelect" name="topic" required
+          style="width: 100%; padding: 10px 15px; border-radius: 25px; border: none; background-color: #3a3a3a; color: white; font-size: 1rem; outline-offset: 2px;">
+          <option value="">--Pilih Topic--</option>
+        </select>
+      </label>
+
+      <label>
+        Subtopic:
+        <select id="subtopicSelect" name="subtopic" required
+          style="width: 100%; padding: 10px 15px; border-radius: 25px; border: none; background-color: #3a3a3a; color: white; font-size: 1rem; outline-offset: 2px;">
+          <option value="">--Pilih Subtopic--</option>
+        </select>
+      </label>
+
+      <button type="submit"
+        style="background-color: #2b86ff; color: white; font-weight: 600; padding: 10px 20px; border-radius: 25px; cursor: pointer; font-size: 1rem; border: none; transition: background 0.3s ease;">
+        Mulai Chat
+      </button>
+    </form>
+  </div>
+
+  <script>
+    const journeys = {{ journeys|tojson }};
+    const journeySelect = document.getElementById("journeySelect");
+    const topicSelect = document.getElementById("topicSelect");
+    const subtopicSelect = document.getElementById("subtopicSelect");
+
+    journeySelect.addEventListener("change", () => {
+      topicSelect.innerHTML = '<option value="">--Pilih Topic--</option>';
+      subtopicSelect.innerHTML = '<option value="">--Pilih Subtopic--</option>';
+      const selectedJourney = journeySelect.value;
+      if (!selectedJourney) return;
+
+      const topics = Object.keys(journeys[selectedJourney].topics);
+      topics.forEach(topic => {
+        let option = document.createElement("option");
+        option.value = topic;
+        option.textContent = topic;
+        topicSelect.appendChild(option);
+      });
+    });
+
+    topicSelect.addEventListener("change", () => {
+      subtopicSelect.innerHTML = '<option value="">--Pilih Subtopic--</option>';
+      const selectedJourney = journeySelect.value;
+      const selectedTopic = topicSelect.value;
+      if (!selectedJourney || !selectedTopic) return;
+
+      const subtopics = Object.keys(journeys[selectedJourney].topics[selectedTopic].subtopics);
+      subtopics.forEach(subtopic => {
+        let option = document.createElement("option");
+        option.value = subtopic;
+        option.textContent = subtopic;
+        subtopicSelect.appendChild(option);
+      });
+    });
+
+    document.getElementById("setupForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const journey = journeySelect.value;
+      const topic = topicSelect.value;
+      const subtopic = subtopicSelect.value;
+
+      if (!journey || !topic || !subtopic) {
+        alert("Harap pilih journey, topic, dan subtopic.");
+        return;
+      }
+
+      const res = await fetch("/start_chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ journey, topic, subtopic }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        window.location.href = "/chat";
+      } else {
+        alert("Gagal memulai chat.");
+      }
+    });
+  </script>
+</body>
+</html>
